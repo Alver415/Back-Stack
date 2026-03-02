@@ -1,0 +1,6 @@
+<details style="background:#7491; border: 1px solid #7497;">
+    <summary><code>Debug</code></summary>
+    <!-- {debug} is derived on the base Model interface which returns a prettified json representation. -->
+    <!-- If we're not working with a Model, then default to the toString representation. -->
+    <pre><code>{{#debug}}{{debug}}{{/debug}}{{^debug}}{{.}}{{/debug}}</code></pre>
+</details>
