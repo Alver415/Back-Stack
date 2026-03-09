@@ -1,16 +1,14 @@
 package com.alver.core.util;
 
-import org.immutables.value.Value;
+import static org.immutables.value.Value.Parameter;
 
 import java.util.Optional;
 
-@Value.Immutable
-@Value.Style(jacksonIntegration = true)
+@Immutable
 public interface Tuple<A, B> {
-    @Value.Parameter
-    Optional<A> a();
+  @Parameter
+  Optional<A> a();
 
-    @Value.Parameter
-    Optional<B> b();
-
+  @Parameter
+  Optional<B> b();
 }

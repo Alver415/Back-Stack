@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{app.title}} {{#page.title}}- {{.}}{{/page.title}}</title>
+    <style>{{> css}}</style>
+</head>
+<body>
+<a href="http://localhost:8080">link</a>
+{{# app.header}}
+{{> header}}
+{{/ app.header}}
+<main>
+    {{{page.content}}}
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

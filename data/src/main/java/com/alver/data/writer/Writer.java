@@ -4,12 +4,11 @@ import com.alver.core.model.Entity;
 
 public interface Writer<T extends Entity> {
 
-    T save(T entity);
+  T save(T entity);
 
-    T insert(T entity);
+  T insert(T entity);
 
-    T update(Long id, T entity);
+  T update(Long id, T entity);
 
-    void delete(Long id);
-
+  void delete(Long id);
 }

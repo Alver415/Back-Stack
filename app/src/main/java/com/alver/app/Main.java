@@ -1,0 +1,10 @@
+package com.alver.app;
+
+import java.io.IOException;
+
+public class Main {
+
+  public static void main(String[] args) throws IOException {
+    new ServerApplication(PropertiesLoader.load(args));
+  }
+}

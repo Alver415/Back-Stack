@@ -1,43 +1,39 @@
 package com.alver.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.alver.data.mapper.ResultSetMapper;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class DatabaseClient {
-
-	protected final DataSource dataSource;
-
-	@Autowired
+	
+	private final DataSource dataSource;
+	
+	@Inject
 	public DatabaseClient(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-
+	
 	public List<Map<String, Object>> query(String sql) {
-		return query(sql, ResultSetTransformer.DEFAULT_TRANSFORMER);
+		return query(sql, rowData -> rowData);
 	}
-
-	public <T> List<T> query(String sql, ResultSetTransformer<T> transformer) {
+	
+	public <T> List<T> query(String sql, ResultSetMapper<T> resultSetMapper) {
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet resultSet = statement.executeQuery();
-			List<T> response = new ArrayList<>();
-			while (resultSet.next()) {
-				response.add(transformer.apply(resultSet));
-			}
-			return response;
+			return resultSetMapper.mapAll(resultSet);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void execute(String sql) {
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -46,20 +42,5 @@ public class DatabaseClient {
 			throw new RuntimeException(e);
 		}
 	}
-
-	public interface ResultSetTransformer<T> {
-
-		T apply(ResultSet resultSet) throws SQLException;
-
-		ResultSetTransformer<Map<String, Object>> DEFAULT_TRANSFORMER = (resultSet -> {
-			ResultSetMetaData metaData = resultSet.getMetaData();
-			Map<String, Object> row = new HashMap<>(metaData.getColumnCount());
-			for (int i = 1; i <= metaData.getColumnCount(); i++) {
-				String columnName = metaData.getColumnName(i);
-				Object value = resultSet.getObject(i);
-				row.put(columnName, value);
-			}
-			return row;
-		});
-	}
+	
 }

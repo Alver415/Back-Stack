@@ -6,6 +6,7 @@ import com.alver.data.writer.Writer;
 
 public interface Repository<T extends Entity> {
 
-    Reader<T> reader();
-    Writer<T> writer();
+  Reader<T> reader();
+
+  Writer<T> writer();
 }

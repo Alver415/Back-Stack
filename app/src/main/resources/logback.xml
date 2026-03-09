@@ -1,0 +1,27 @@
+<configuration>
+
+    <appender name="structured" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>.logs/app.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>.logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+        </encoder>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>false</includeCallerData>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="structured" level="info"/>
+        <appender-ref ref="console" level="debug"/>
+    </root>
+
+</configuration>

@@ -6,12 +6,12 @@ import java.util.Objects;
 
 public interface SqlResourceLoader {
 
-    static String load(String path) {
-        try (InputStream is = SqlResourceLoader.class.getResourceAsStream(path)) {
-            Objects.requireNonNull(is);
-            return new String(is.readAllBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+  static String load(String path) {
+    try (InputStream is = SqlResourceLoader.class.getResourceAsStream(path)) {
+      Objects.requireNonNull(is);
+      return new String(is.readAllBytes());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 }

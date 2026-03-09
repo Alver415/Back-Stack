@@ -12,7 +12,9 @@ Data access, service layer, REST endpoints, and HTML presentation is all handled
 
 `service`: Services for handling business logic.
 
-`api`: Controllers for REST endpoints and Presenters for HTML.
+`api`: Controllers for REST endpoints returning json.
+
+`web`: Presenters to render HTML for web application.
 
 `app`: Spring-Boot application that ties it all together.
 

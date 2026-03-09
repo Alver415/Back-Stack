@@ -1,0 +1,15 @@
+<form id="{{value.type}}-{{value.id}}">
+    <div class="model">
+        <label for="entity-id-{{value.id}}">ID</label>
+        <input
+                id="entity-id-{{value.id}}"
+                name="id"
+                value="{{value.id}}"
+                type="text">
+    </div>
+    <section>
+        {{#children}}
+            {{>../field/field}}
+        {{/children}}
+    </section>
+</form>
