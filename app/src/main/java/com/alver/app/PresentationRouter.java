@@ -1,7 +1,7 @@
 package com.alver.app;
 
+import com.alver.http.HttpProcessor;
 import com.alver.http.HttpRequest;
-import com.alver.http.HttpRequestHandler;
 import com.alver.http.HttpResponse;
 import com.alver.http.HttpRouter;
 import com.alver.web.presenter.Presenter;
@@ -22,7 +22,7 @@ public class PresentationRouter implements HttpRouter {
 	}
 	
 	@Override
-	public HttpRequestHandler route(HttpRequest request) {
+	public HttpProcessor route(HttpRequest request) {
 		String path = request.uri().getPath();
 		Presenter presenter = presenters.getOrDefault(path.substring(1), presenters.get("home"));
 		

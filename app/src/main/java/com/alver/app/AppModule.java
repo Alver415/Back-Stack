@@ -1,8 +1,10 @@
 package com.alver.app;
 
 import com.alver.api.CrudApi;
-import com.alver.http.HttpExchangeHandler;
+import com.alver.http.HttpProcessor;
 import com.alver.web.app.HtmlPresenter;
+import com.alver.web.css.CssStyleSheet;
+import com.alver.web.css.CssStyleSheetImpl;
 import com.alver.web.home.HomePresenter;
 import com.alver.web.presenter.Presenter;
 import com.github.mustachejava.DefaultMustacheFactory;
@@ -49,15 +51,22 @@ public interface AppModule {
 	}
 	
 	@Provides
-	static HtmlPresenter htmlPresenter(MustacheFactory mustacheFactory, AppProperties properties) {
-		return new HtmlPresenter(mustacheFactory, properties.title(), properties.version());
+	static CssStyleSheet cssStyleSheet(MustacheFactory factory) {
+		return CssStyleSheetImpl.builder()
+			.mustache(factory.compile("com/alver/web/app/app.css"))
+			.build();
+	}
+	
+	@Provides
+	static HtmlPresenter htmlPresenter(AppProperties properties, CssStyleSheet styleSheet) {
+		return new HtmlPresenter(properties.title(), properties.version(), styleSheet);
 	}
 	
 	@Provides
 	@IntoMap
 	@StringKey("home")
-	static Presenter homePresenter(HtmlPresenter htmlPresenter, MustacheFactory factory) {
-		return new HomePresenter(htmlPresenter, factory);
+	static Presenter homePresenter(HtmlPresenter htmlPresenter) {
+		return new HomePresenter(htmlPresenter);
 	}
 	
 	@Provides
@@ -98,8 +107,8 @@ public interface AppModule {
 			HttpServer server = HttpServer.create(inetSocketAddress, appProperties.httpServerBacklog());
 			server.setExecutor(executor);
 			
-			HttpExchangeHandler presentationHandler = (request) -> presentationRouter.route(request).handle(request);
-			HttpExchangeHandler apiHandler = (request) -> apiRouter.route(request).handle(request);
+			HttpProcessor presentationHandler = (request) -> presentationRouter.route(request).handle(request);
+			HttpProcessor apiHandler = (request) -> apiRouter.route(request).handle(request);
 			
 			HttpContext root = server.createContext("/", presentationHandler);
 			HttpContext api = server.createContext("/api", apiHandler);

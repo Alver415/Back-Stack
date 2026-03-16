@@ -1,51 +1,74 @@
 package com.alver.web.component;
 
-import static org.immutables.value.Value.Default;
-import static org.immutables.value.Value.Derived;
-
 import com.alver.core.util.Immutable;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.TemplateFunction;
+import org.immutables.value.Value;
+import org.immutables.value.Value.Lazy;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectWriter;
+
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.function.BiFunction;
+
+import static org.immutables.value.Value.Default;
 
 @Immutable
 public interface Component<T extends Component<T>> {
-  DefaultMustacheFactory factory = new DefaultMustacheFactory();
-
-  @Default
-  default String templateContent() {
-    return "[NOT IMPLEMENTED]";
-  }
-
-  @Default
-  default String templateName() {
-    return "[NOT IMPLEMENTED]";
-  }
-
-  @Default
-  default Mustache template() {
-    return factory.compile(new StringReader(templateContent()), templateName());
-  }
-
-  /** This is the method that can be used to override the standard rendering template. */
-  @Default
-  default BiFunction<Component<T>, String, String> renderTemplate() {
-    return (self, _) -> {
-      StringWriter writer = new StringWriter();
-      template().execute(writer, self);
-      return writer.toString();
-    };
-  }
-
-  /**
-   * This is the method that mustache actually calls. This component uses the component's
-   * renderTemplate field and passes itself as the model for rendering.
-   */
-  @Derived
-  default TemplateFunction render() {
-    return (string) -> renderTemplate().apply(Component.this, string);
-  }
+	DefaultMustacheFactory FACTORY = new DefaultMustacheFactory();
+	
+	@Default
+	default String template() {
+		return debugTemplate();
+	}
+	
+	@Default
+	default Mustache mustache() {
+		StringReader reader = new StringReader(this.template());
+		String name = getClass().getSimpleName();
+		return FACTORY.compile(reader, name);
+	}
+	
+	default TemplateFunction render() {
+		return this::renderTemplate;
+	}
+	
+	
+	default String renderTemplate() {
+		return renderTemplate(null);
+	}
+	
+	default String renderTemplate(String string) {
+		StringWriter writer = new StringWriter();
+		mustache().execute(writer, this);
+		return writer.toString();
+	}
+	
+	
+	default String debugTemplate() {
+		//language=Mustache
+		return """
+         <details>
+             <summary>
+               <code>
+                 Debug
+               </code>
+             </summary>
+             <!-- {debug} is derived on the base Model interface which returns a prettified json representation. -->
+             <pre>
+               <code>
+                 {{#debug}}{{debug}}{{/debug}}
+                 {{^debug}}{{.}}{{/debug}}
+               </code>
+             </pre>
+         </details>
+    """;
+	}
+	
+	default String debug(){
+		ObjectWriter JSON = new ObjectMapper().writerWithDefaultPrettyPrinter();
+		return JSON.writeValueAsString(JSON);
+	}
+	
 }

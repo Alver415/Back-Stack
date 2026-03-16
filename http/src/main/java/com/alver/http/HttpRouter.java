@@ -1,5 +1,5 @@
 package com.alver.http;
 
 public interface HttpRouter {
-  HttpRequestHandler route(HttpRequest request);
+  HttpProcessor route(HttpRequest request);
 }

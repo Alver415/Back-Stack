@@ -1,0 +1,74 @@
+:root {
+    color-scheme: dark light;
+    --background: #77f1;
+    --border: 1px solid #77f3;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+main {
+    flex-grow: 1;
+}
+header, footer {
+    display: flex;
+    justify-content: center;
+    background: var(--background);
+    padding: 0.25rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 20%
+}
+pre {
+    padding: 0;
+}
+
+form {
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #77c7;
+    border-radius: 0.25rem;
+    background: var(--background);
+}
+details {
+    margin: 0.25rem;
+    padding: 0.25rem;
+    background: var(--background);
+    border: var(--border);
+    border-radius: 0.25rem;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+input {
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+}
+
+fieldset {
+    display: flex;
+    margin: 1rem;
+    padding: 0;
+    border: 1px solid #7773;
+    border-radius: 0.25rem;
+    background: #7771;
+}

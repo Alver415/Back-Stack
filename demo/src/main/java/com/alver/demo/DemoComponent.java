@@ -3,6 +3,7 @@ package com.alver.demo;
 import com.alver.app.AppModule;
 import com.alver.app.AppProperties;
 import com.alver.app.DatabaseServer;
+import com.alver.data.DatabaseClient;
 import com.sun.net.httpserver.HttpServer;
 import dagger.BindsInstance;
 import dagger.Component;
@@ -23,6 +24,8 @@ public interface DemoComponent {
 	}
 	
 	DatabaseServer databaseServer();
+	
+	DatabaseClient databaseClient();
 	
 	HttpServer httpServer();
 	

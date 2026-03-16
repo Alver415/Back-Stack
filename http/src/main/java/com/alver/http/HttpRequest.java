@@ -7,9 +7,7 @@ import org.immutables.value.Value.Derived;
 import tools.jackson.databind.annotation.JsonSerialize;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +17,12 @@ import java.util.Map;
 public interface HttpRequest {
 	
 	URI uri();
+	
+	Headers headers();
+	
+	HttpMethod method();
+	
+	String body();
 	
 	@Derived
 	default List<String> pathParams() {
@@ -38,14 +42,7 @@ public interface HttpRequest {
 		return params;
 	}
 	
-	
-	Headers headers();
-	
-	HttpMethod method();
-	
-	String body();
-	
-	static HttpRequest of(HttpExchange exchange) throws IOException {
+	static HttpRequest from(HttpExchange exchange) throws IOException {
 		return HttpRequestImpl.builder()
 			.uri(exchange.getRequestURI())
 			.headers(exchange.getRequestHeaders())

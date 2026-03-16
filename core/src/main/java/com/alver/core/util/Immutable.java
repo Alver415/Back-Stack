@@ -18,7 +18,8 @@ import static org.immutables.value.Value.Style;
 	visibility = Style.ImplementationVisibility.PUBLIC,
 	typeImmutable = "*Impl",
 	passAnnotations = FieldInfo.class,
-	allMandatoryParameters = true
+	allMandatoryParameters = true,
+	optionalAcceptNullable = true
 )
 public @interface Immutable {
 }

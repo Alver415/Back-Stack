@@ -1,10 +1,11 @@
 package com.alver.web.css;
 
 import com.alver.core.util.Immutable;
+import com.alver.web.style.RGBAColor;
 
 @Immutable
-public interface CssColor extends CssEntry<RGBAColor> {
-  default String name() {
+public interface CssColor extends CssDeclaration<RGBAColor> {
+  default String property() {
     return "color";
   }
 

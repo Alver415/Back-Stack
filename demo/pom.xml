@@ -43,6 +43,5 @@
             <groupId>com.alver</groupId>
             <artifactId>app</artifactId>
         </dependency>
-
     </dependencies>
 </project>

@@ -17,9 +17,8 @@ import com.alver.demo.model.UserCreateRequest;
 import com.alver.demo.model.UserUpdateRequest;
 import com.alver.demo.repository.UserMapper;
 import com.alver.web.app.HtmlPresenter;
-import com.alver.web.entity.EntityPresenter;
+import com.alver.web.presenter.EntityPresenter;
 import com.alver.web.presenter.Presenter;
-import com.github.mustachejava.MustacheFactory;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
@@ -33,9 +32,9 @@ public interface UserModule {
 	@StringKey("user")
 	static Presenter userPresenter(
 		Service<User> userService,
-		HtmlPresenter htmlPresenter,
-		MustacheFactory mustacheFactory) {
-		return new EntityPresenter<>(userService, htmlPresenter, mustacheFactory);
+		HtmlPresenter htmlPresenter
+	) {
+		return new EntityPresenter<>(userService, htmlPresenter);
 	}
 	
 	@Provides
@@ -65,7 +64,7 @@ public interface UserModule {
 		return new EntityReader<>(
 			databaseClient,
 			new UserMapper(),
-			SqlResourceLoader.load("/sql/select-users.sql")
+			SqlResourceLoader.load("/sql/select-user.sql")
 		);
 	}
 	

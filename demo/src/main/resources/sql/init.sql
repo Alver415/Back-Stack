@@ -1,8 +1,4 @@
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS addresses;
-
-CREATE TABLE addresses (
     id                  BIGINT PRIMARY KEY,
     street              VARCHAR(255) NOT NULL,
     city                VARCHAR(100) NOT NULL,
@@ -11,7 +7,7 @@ CREATE TABLE addresses (
     is_apartment        BOOLEAN      NOT NULL,
 );
 
-CREATE TABLE users (
+CREATE TABLE "user" (
     id                   BIGINT PRIMARY KEY,
 
     first_name           VARCHAR(100) NOT NULL,
@@ -28,10 +24,10 @@ CREATE TABLE users (
     -- Foreign keys
     CONSTRAINT fk_user_primary_address
         FOREIGN KEY (primary_address_id)
-        REFERENCES addresses(id),
+        REFERENCES "address"(id),
 
     CONSTRAINT fk_user_secondary_address
         FOREIGN KEY (secondary_address_id)
-        REFERENCES addresses(id),
+        REFERENCES "address"(id),
 
 );

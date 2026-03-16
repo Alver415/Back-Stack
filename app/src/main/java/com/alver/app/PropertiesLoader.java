@@ -17,9 +17,9 @@ public class PropertiesLoader {
 	private static final Logger log = LoggerFactory.getLogger(PropertiesLoader.class);
 	
 	public static AppProperties load(String[] args) throws IOException {
-		Map<String, String> propMap = parseProperties("/default.properties");
-		Map<String, String> pathMap = parsePath(Path.of("./app.properties"));
 		Map<String, String> argsMap = parseArgs(args);
+		Map<String, String> pathMap = parsePath(Path.of(argsMap.getOrDefault("properties","./app.properties")));
+		Map<String, String> propMap = parseProperties("/default.properties");
 		AppProperties appProperties = AppProperties.from(propMap, pathMap, argsMap);
 		
 		//FIXME: Don't log sensitive configurations.

@@ -2,10 +2,7 @@ package com.alver.app;
 
 import com.alver.api.CrudApi;
 import com.alver.api.DatabaseApi;
-import com.alver.http.HttpRequest;
-import com.alver.http.HttpRequestHandler;
-import com.alver.http.HttpResponse;
-import com.alver.http.HttpRouter;
+import com.alver.http.*;
 import com.sun.net.httpserver.Headers;
 import tools.jackson.databind.ObjectMapper;
 
@@ -33,7 +30,7 @@ public class ApiRouter implements HttpRouter {
 	}
 	
 	@Override
-	public HttpRequestHandler route(HttpRequest request) {
+	public HttpProcessor route(HttpRequest request) {
 		URI uri = request.uri();
 		if (uri.getPath().startsWith("/api/sql")) {
 			return _ -> {

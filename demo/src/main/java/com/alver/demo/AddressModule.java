@@ -17,9 +17,8 @@ import com.alver.demo.model.AddressCreateRequest;
 import com.alver.demo.model.AddressUpdateRequest;
 import com.alver.demo.repository.AddressMapper;
 import com.alver.web.app.HtmlPresenter;
-import com.alver.web.entity.EntityPresenter;
+import com.alver.web.presenter.EntityPresenter;
 import com.alver.web.presenter.Presenter;
-import com.github.mustachejava.MustacheFactory;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
@@ -33,9 +32,9 @@ public interface AddressModule {
 	@StringKey("address")
 	static Presenter addressPresenter(
 		Service<Address> addressService,
-		HtmlPresenter htmlPresenter,
-		MustacheFactory mustacheFactory) {
-		return new EntityPresenter<>(addressService, htmlPresenter, mustacheFactory);
+		HtmlPresenter htmlPresenter
+	) {
+		return new EntityPresenter<>(addressService, htmlPresenter);
 	}
 	
 	@Provides
@@ -66,7 +65,7 @@ public interface AddressModule {
 		return new EntityReader<>(
 			databaseClient,
 			new AddressMapper(),
-			SqlResourceLoader.load("/sql/select-addresses.sql")
+			SqlResourceLoader.load("/sql/select-address.sql")
 		);
 	}
 	

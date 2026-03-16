@@ -28,17 +28,17 @@ public interface AppProperties {
 	default String databaseServerPath() {
 		return "file:.database/back_stack";
 	}
-	
+
 	@Default
 	default String databaseServerName() {
 		return "back_stack";
 	}
-	
+
 	@Default
 	default String databaseServerAddress() {
 		return "localhost";
 	}
-	
+
 	@Default
 	default Integer databaseServerPort() {
 		return 9000;

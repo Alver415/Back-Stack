@@ -1,5 +1,6 @@
 package com.alver.app;
 
+import com.alver.data.DatabaseClient;
 import com.sun.net.httpserver.HttpServer;
 import dagger.BindsInstance;
 import dagger.Component;
@@ -14,8 +15,6 @@ public interface AppComponent {
 	interface Factory {
 		AppComponent create(@BindsInstance AppProperties appProperties);
 	}
-	
-	DatabaseServer databaseServer();
 	
 	HttpServer httpServer();
 	
