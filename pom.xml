@@ -24,11 +24,11 @@
 
     <properties>
         <revision>0.0.0-SNAPSHOT</revision>
-        <java.version>24</java.version>
+        <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven.compiler.source>24</maven.compiler.source>
-        <maven.compiler.target>24</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
 
         <immutables.version>2.12.1</immutables.version>
         <hsqldb.version>2.7.4</hsqldb.version>
