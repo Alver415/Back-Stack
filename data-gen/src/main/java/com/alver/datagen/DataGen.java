@@ -24,7 +24,7 @@ public class DataGen {
 			.map(split -> EntryImpl.of(split[0].replace("--", ""), split[1]))
 			.collect(Collectors.toMap(EntryImpl::key, EntryImpl::value));
 		
-		String url = arguments.getOrDefault("url", "jdbc:hsqldb:hsql://localhost/back_stack");
+		String url = arguments.getOrDefault("url", "jdbc:hsqldb:hsql://localhost:9000/back_stack");
 		String user = arguments.getOrDefault("user", "sa");
 		String pass = arguments.getOrDefault("pass", "");
 		DataSource dataSource = buildDataSource(url, user, pass);
@@ -55,7 +55,7 @@ public class DataGen {
 		
 		Schema schema = SchemaImpl.builder()
 			.name("back_stack")
-			.tables(tables)
+			.addAllTables(tables)
 			.build();
 		
 		log.atInfo().setMessage("SCHEMA").addKeyValue("schema", schema).log();
@@ -75,6 +75,7 @@ public class DataGen {
 	}
 	
 	private static void cleanDirectory(Path outputDir) throws IOException {
+		Files.createDirectories(outputDir);
 		try (Stream<Path> stream = Files.walk(outputDir)) {
 			stream.sorted(Comparator.reverseOrder()).forEach(path -> {
 				try {

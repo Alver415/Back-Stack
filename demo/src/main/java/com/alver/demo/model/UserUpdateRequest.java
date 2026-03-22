@@ -15,9 +15,7 @@ import static org.immutables.value.Value.Derived;
 
 @Immutable
 @JsonSerialize(as = UserImpl.class)
-public interface UserUpdateRequest extends
-	Entity,
-	UpdateRequest<User> {
+public interface UserUpdateRequest extends Entity, UpdateRequest<User> {
 	
 	@FieldInfo(order = 0)
 	String firstName();

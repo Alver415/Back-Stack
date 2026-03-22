@@ -1,13 +1,17 @@
 package com.alver.datagen;
 
+import com.alver.core.util.Immutable;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.*;
 import java.time.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface Converter {
 	static Class<?> mapJdbcTypeToJava(JDBCType jdbcType) {
@@ -54,36 +58,66 @@ public interface Converter {
 	
 	static String generateClass(
 		String javaPackage,
-		List<Type> imports,
-		List<Annotation> annotations,
+		List<Class<?>> additionalImports,
+		List<Annotation> additionalAnnotations,
 		TypeKind kind,
 		String name,
 		Table table
 	) {
 		
-		String fields = table.columns().stream()
+		String annotations = additionalAnnotations.stream()
+			.map(Annotation::annotationType)
+			.map("@%s"::formatted)
+			.collect(Collectors.joining("\n"));
+		
+		Stream<Class<?>> derivedImports = table.columns().stream()
+			.map(Column::type)
+			.map(Converter::mapJdbcTypeToJava);
+		
+		String imports = Stream.concat(
+				Stream.of(
+					Optional.class,
+					JsonSerialize.class,
+					Immutable.class
+				),
+				Stream.concat(
+					additionalImports.stream(),
+					derivedImports
+				))
+			.distinct()
+			.map(Class::getCanonicalName)
+			.map("import %s;"::formatted)
+			.collect(Collectors.joining("\n"));
+		
+		String fieldDefinitions = table.columns().stream()
 			.map(col -> {
 				Class<?> type = mapJdbcTypeToJava(col.type());
 				String typeString = (col.nullable() ? "Optional<%s>" : "%s")
 					.formatted(type.getSimpleName());
 				return String.format("\t%s %s();", typeString, toCamel(col.name()));
-			})
-			.collect(Collectors.joining("\n"));
+			}).collect(Collectors.joining("\n"));
 		
-		String importString = imports.stream().map("import %s;"::formatted).collect(Collectors.joining("\n"));
+		
 		return """
-			package %s;
+			package {{package}};
 			
-			%s
+			{{imports}}
 			
 			@Immutable
-			@JsonSerialize(as = %sImpl.class)
-			public %s %s {
+			@JsonSerialize(as = {{name}}Impl.class)
+			{{annotations}}
+			public {{type}} {{name}} {
 			
-			%s
+			{{fields}}
 			
 			}
-			""".formatted(javaPackage, importString, name, kind.text(), name, fields);
+			"""
+			.replace("{{package}}", javaPackage)
+			.replace("{{imports}}", imports)
+			.replace("{{annotations}}", annotations)
+			.replace("{{type}}", kind.text())
+			.replace("{{name}}", name)
+			.replace("{{fields}}", fieldDefinitions);
 	}
 	
 }

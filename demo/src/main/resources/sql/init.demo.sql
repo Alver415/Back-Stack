@@ -10,12 +10,12 @@ CREATE TABLE "address" (
     zip_code            VARCHAR(10)  NOT NULL,
     is_apartment        BOOLEAN,
 
-    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at           TIMESTAMP NOT NULL,
     created_by           BIGINT NOT NULL,
-    updated_at           TIMESTAMP ,
+    updated_at           TIMESTAMP,
     updated_by           BIGINT,
-    deleted_at           TIMESTAMP ,
-    deleted_by           BIGINT,
+    deleted_at           TIMESTAMP,
+    deleted_by           BIGINT
 );
 
 CREATE TABLE "user" (
@@ -29,11 +29,11 @@ CREATE TABLE "user" (
     primary_address_id   BIGINT NOT NULL,
     secondary_address_id BIGINT,
 
-    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at           TIMESTAMP NOT NULL,
     created_by           BIGINT NOT NULL,
-    updated_at           TIMESTAMP ,
+    updated_at           TIMESTAMP,
     updated_by           BIGINT,
-    deleted_at           TIMESTAMP ,
+    deleted_at           TIMESTAMP,
     deleted_by           BIGINT,
 
     -- Foreign keys
@@ -43,10 +43,8 @@ CREATE TABLE "user" (
 
     CONSTRAINT fk_user_secondary_address
         FOREIGN KEY (secondary_address_id)
-        REFERENCES "address"(id),
-
+        REFERENCES "address"(id)
 );
-
 
 INSERT INTO "address" (
     id,

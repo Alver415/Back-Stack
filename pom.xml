@@ -24,24 +24,8 @@
 
     <properties>
         <revision>0.0.0-SNAPSHOT</revision>
-        <java.version>25</java.version>
+        <java-version>25</java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-
-        <immutables.version>2.12.1</immutables.version>
-        <hsqldb.version>2.7.4</hsqldb.version>
-        <jackson.version>3.1.0</jackson.version>
-        <mustache.version>0.9.10</mustache.version>
-        <junit.version>5.9.3</junit.version>
-        <slf4j.version>2.0.17</slf4j.version>
-        <spotless-maven-plugin.version>2.46.0</spotless-maven-plugin.version>
-        <dagger.version>2.59.2</dagger.version>
-        <logback-classic.version>1.4.11</logback-classic.version>
-        <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
-        <logback-core.version>1.5.32</logback-core.version>
-        <logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
     </properties>
 
     <dependencies>
@@ -80,17 +64,14 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback-core.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>${logback-core.version}</version>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-logback-encoder.version}</version>
         </dependency>
 
         <!-- Testing -->
@@ -144,7 +125,7 @@
             <dependency>
                 <groupId>org.immutables</groupId>
                 <artifactId>bom</artifactId>
-                <version>${immutables.version}</version>
+                <version>2.12.1</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -153,7 +134,7 @@
             <dependency>
                 <groupId>com.google.dagger</groupId>
                 <artifactId>dagger</artifactId>
-                <version>${dagger.version}</version>
+                <version>2.59.2</version>
                 <scope>compile</scope>
             </dependency>
 
@@ -161,45 +142,50 @@
             <dependency>
                 <groupId>com.github.spullara.mustache.java</groupId>
                 <artifactId>compiler</artifactId>
-                <version>${mustache.version}</version>
+                <version>0.9.14</version>
             </dependency>
 
             <!-- Database -->
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
-                <version>${hsqldb.version}</version>
+                <version>2.7.4</version>
             </dependency>
 
             <!-- Serialization -->
             <dependency>
                 <groupId>tools.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
+                <version>3.1.0</version>
             </dependency>
 
             <!-- Logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <version>2.0.17</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${logback-classic.version}</version>
+                <version>1.5.32</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.5.32</version>
             </dependency>
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash-logback-encoder.version}</version>
+                <version>9.0</version>
             </dependency>
 
             <!-- Testing -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>${junit.version}</version>
+                <version>6.0.3</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -207,6 +193,22 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.16.0</version>
+                <configuration>
+                    <ruleSet>
+                        <ignoreVersions>
+                            <ignoreVersion>
+                                <!-- can be either: 'exact' (default), 'regex' or 'range' -->
+                                <type>regex</type>
+                                <version>(.*-.*)</version>
+                            </ignoreVersion>
+                        </ignoreVersions>
+                    </ruleSet>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -230,8 +232,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.8.1</version>
                 <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                    <release>${java-version}</release>
                     <compilerArgs>
                         <arg>-Aimmutables.annotation=com.alver.core.util.Immutable</arg>
                     </compilerArgs>
@@ -239,12 +244,12 @@
                         <path>
                             <groupId>org.immutables</groupId>
                             <artifactId>value</artifactId>
-                            <version>${immutables.version}</version>
+                            <version>2.12.1</version>
                         </path>
                         <path>
                             <groupId>com.google.dagger</groupId>
                             <artifactId>dagger-compiler</artifactId>
-                            <version>${dagger.version}</version>
+                            <version>2.59.2</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -252,7 +257,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>${spotless-maven-plugin.version}</version>
+                <version>2.46.0</version>
                 <executions>
                     <execution>
                         <goals>
