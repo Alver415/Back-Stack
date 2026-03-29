@@ -10,6 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>functional</module>
+
         <module>core</module>
         <module>data-gen</module>
         <module>data</module>
