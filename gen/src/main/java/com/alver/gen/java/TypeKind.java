@@ -1,4 +1,4 @@
-package com.alver.datagen;
+package com.alver.gen.java;
 
 public enum TypeKind {
 	CLASS("class"),

@@ -1,4 +1,4 @@
-package com.alver.datagen;
+package com.alver.gen.sql;
 
 import com.alver.core.util.Immutable;
 import tools.jackson.databind.annotation.JsonSerialize;
@@ -14,4 +14,5 @@ public interface Column {
 	JDBCType type();
 	
 	boolean nullable();
+	
 }

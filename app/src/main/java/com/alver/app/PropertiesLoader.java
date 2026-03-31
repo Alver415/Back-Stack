@@ -36,7 +36,7 @@ public class PropertiesLoader {
 		return Arrays.stream(args)
 			.map(arg -> arg.split("=", 2))
 			.map(split -> EntryImpl.of(split[0].replace("--", ""), split[1]))
-			.collect(Collectors.toMap(EntryImpl::key, EntryImpl::value));
+			.collect(Collectors.toMap(Entry::key, Entry::value));
 	}
 	
 	static Map<String, String> parseProperties(String file) throws IOException {

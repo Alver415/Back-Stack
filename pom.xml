@@ -13,7 +13,7 @@
         <module>functional</module>
 
         <module>core</module>
-        <module>data-gen</module>
+        <module>gen</module>
         <module>data</module>
         <module>service</module>
         <module>api</module>

@@ -3,10 +3,7 @@ package com.alver.core.util;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static org.immutables.value.Value.Style;
 
@@ -19,7 +16,9 @@ import static org.immutables.value.Value.Style;
 	typeImmutable = "*Impl",
 	passAnnotations = FieldInfo.class,
 	allMandatoryParameters = true,
-	optionalAcceptNullable = true
+	optionalAcceptNullable = true,
+	overshadowImplementation = true
 )
 public @interface Immutable {
+
 }

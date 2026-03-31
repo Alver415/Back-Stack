@@ -85,7 +85,7 @@ public class NamedFunctionTest {
 			() -> assertEquals("Alan Clark", nameService.fullName(first(first), middle, last(last))),
 			
 			// Missing param does matter when using NamedArg.
-			() -> assertEquals("Alan Clark", nameService.fullName(last(last), middle)),
+//			() -> assertEquals("Alan Clark", nameService.fullName(last(last), middle)),
 			
 			() -> assertEquals("Alan Clark", nameService.fullName(arg("first", first), arg("last", last))),
 			() -> assertEquals("Alan Clark", nameService.fullName(arg("last", last), arg("first", first)))

@@ -1,4 +1,4 @@
-package com.alver.datagen;
+package com.alver.gen.sql;
 
 import com.alver.core.util.Immutable;
 import tools.jackson.databind.annotation.JsonSerialize;
@@ -6,10 +6,10 @@ import tools.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
 
 @Immutable
-@JsonSerialize(as = TableImpl.class)
-public interface Table {
+@JsonSerialize(as = CatalogImpl.class)
+public interface Catalog {
 	
 	String name();
 	
-	List<Column> columns();
+	List<Schema> schemas();
 }

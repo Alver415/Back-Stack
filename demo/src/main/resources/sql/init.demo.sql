@@ -1,6 +1,21 @@
 
 DROP TABLE IF EXISTS "user";
 DROP TABLE IF EXISTS "address";
+DROP TABLE IF EXISTS "place";
+
+CREATE TABLE "place" (
+    id                  BIGINT PRIMARY KEY,
+    title               VARCHAR(64) NOT NULL,
+    country             VARCHAR(64) NOT NULL,
+    continent           VARCHAR(64) NOT NULL,
+
+    created_at           TIMESTAMP NOT NULL,
+    created_by           BIGINT NOT NULL,
+    updated_at           TIMESTAMP,
+    updated_by           BIGINT,
+    deleted_at           TIMESTAMP,
+    deleted_by           BIGINT
+)
 
 CREATE TABLE "address" (
     id                  BIGINT PRIMARY KEY,
@@ -45,6 +60,18 @@ CREATE TABLE "user" (
         FOREIGN KEY (secondary_address_id)
         REFERENCES "address"(id)
 );
+
+INSERT INTO "place" (
+    id,
+    title,
+    country,
+    continent,
+    created_at,
+    created_by
+) VALUES
+(1, 'New York',      'United States', 'North America', CURRENT_TIMESTAMP, 1),
+(2, 'Paris',         'France',        'Europe',        CURRENT_TIMESTAMP, 1),
+(3, 'Mount Everest', 'Nepal',         'Asia',          CURRENT_TIMESTAMP, 1),
 
 INSERT INTO "address" (
     id,

@@ -1,7 +1,6 @@
 package com.alver.functional.exception;
 
 import com.alver.functional.result.Result;
-import com.alver.result.*;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
